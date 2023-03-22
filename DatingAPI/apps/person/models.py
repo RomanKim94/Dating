@@ -20,7 +20,6 @@ class Person(AbstractUser):
 
     sex = models.CharField(choices=SEX, max_length=1)
     photo = models.ImageField(upload_to=get_file_path)
-    # Yellow mark: may return an exception. Try this and override if exception is thrown
     USERNAME_FIELD = 'username'
 
 
