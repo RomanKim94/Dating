@@ -1,9 +1,11 @@
 import uuid
 from datetime import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .managers import CustomUserManager
 from .services import PersonService
 
 
@@ -15,14 +17,29 @@ class Person(AbstractUser):
         filename = f'{str(uuid.uuid4())[:10]}{filename}'
         return f'photos/{username}/{date}/{filename}'
 
-    SEX = {
+    SEX_CHOICES = {
         ('M', 'Male'),
         ('F', 'Female'),
     }
 
-    sex = models.CharField(choices=SEX, max_length=1)
-    photo = models.ImageField(upload_to=get_file_path, blank=True)
+    sex = models.CharField(
+        choices=SEX_CHOICES,
+        max_length=1,
+    )
+    photo = models.ImageField(
+        upload_to=get_file_path,
+        blank=True,
+        verbose_name='Profile picture',
+    )
+    age = models.PositiveSmallIntegerField(
+        validators=[MaxValueValidator(150), MinValueValidator(18)],
+    )
+    email = models.EmailField(
+        verbose_name='Email address'
+    )
     USERNAME_FIELD = 'username'
+
+    objects = CustomUserManager()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

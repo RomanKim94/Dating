@@ -1,16 +1,20 @@
-from django.shortcuts import render
-from rest_framework import viewsets, mixins
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
 
 from .models import Person
-from .serializers import PersonCreateSerializer
+from .serializers import PersonCreateSerializer, PersonDetailSerializer, PersonListSerializer
 
 
-class PersonCreateViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
-    serializer_class = PersonCreateSerializer
-    lookup_field = 'username'
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['sex', 'first_name', 'last_name']
 
     def get_serializer_class(self):
         if self.action == 'create':
             return PersonCreateSerializer
-        return super().get_serializer_class()
+        elif self.action == 'retrieve':
+            return PersonDetailSerializer
+        elif self.action == 'list':
+            return PersonListSerializer
+
