@@ -1,6 +1,5 @@
-import os
-
 from PIL import Image
+from django.db.models import Func
 
 
 class PersonService:
@@ -20,3 +19,17 @@ class PersonService:
             photo.save(path)
 
 
+class Sin(Func):
+    function = 'SIN'
+
+
+class Cos(Func):
+    function = 'COS'
+
+
+class Acos(Func):
+    function = 'ACOS'
+
+
+class Radians(Func):
+    function = 'RADIANS'
