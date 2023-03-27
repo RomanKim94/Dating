@@ -35,7 +35,17 @@ class Person(AbstractUser):
         validators=[MaxValueValidator(150), MinValueValidator(18)],
     )
     email = models.EmailField(
-        verbose_name='Email address'
+        verbose_name='Email address',
+    )
+    latitude = models.DecimalField(
+        verbose_name='User latitude',
+        max_digits=9,
+        decimal_places=6,
+    )
+    longitude = models.DecimalField(
+        verbose_name='User longitude',
+        max_digits=9,
+        decimal_places=6,
     )
     USERNAME_FIELD = 'username'
 
