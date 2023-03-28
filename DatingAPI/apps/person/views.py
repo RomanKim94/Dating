@@ -27,7 +27,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if self.action in ['list', 'retrieve']:
+        if self.action in ['list', ]:
             if self.kwargs.get('max_distance'):
                 radius_km = 6367.4
                 max_distance = Decimal(self.kwargs.get('max_distance'))
@@ -39,4 +39,7 @@ class PersonViewSet(viewsets.ModelViewSet):
                     Sin(user_lat_rad) * Sin(Radians(F('latitude')))
                 ), output_field=DecimalField()))
                 qs = qs.exclude(username=self.request.user.username).filter(distance__lte=max_distance)
+        elif self.action == 'retrieve':
+            username = self.kwargs.get('username')
+            qs = qs.filter(username=username)[0]
         return qs

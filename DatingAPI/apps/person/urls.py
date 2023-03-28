@@ -9,5 +9,6 @@ urlpatterns = [
     path('<int:id>/match/', MatchViewSet.as_view({'post': 'create'})),
     re_path(r'list/(?P<max_distance>\d+\.?\d*)/', PersonViewSet.as_view({'get': 'list'})),
     path('list/', PersonViewSet.as_view({'get': 'list'})),
+    path('detail/<str:username>', PersonViewSet.as_view({'get': 'retrieve'})),
 ]
 
