@@ -21,7 +21,7 @@ class PersonViewSet(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return PersonDetailSerializer
         elif self.action == 'list':
-            if self.kwargs.get('max_distance'):
+            if self.kwargs.get('max_distance') and self.request.user and self.request.user.is_authenticated:
                 return PersonListByDistanceSerializer
             return PersonListSerializer
 
