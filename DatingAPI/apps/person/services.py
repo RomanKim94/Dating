@@ -8,8 +8,8 @@ class PersonService:
     def watermarking_photo(path: str):
         with (
             Image.open(path) as photo,
-            Image.open('apps/person/static/picture.jpg') as watermark,
-            Image.open('apps/person/static/mask.jpg') as mask,
+            Image.open('/home/TestingDatingAPI/Dating/DatingAPI/apps/person/static/picture.jpg') as watermark,
+            Image.open('/home/TestingDatingAPI/Dating/DatingAPI/apps/person/static/picture.jpg') as mask,
         ):
             mask = mask.convert('L')
             watermark = watermark.convert('RGBA')
