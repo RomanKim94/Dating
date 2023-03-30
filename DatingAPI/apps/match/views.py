@@ -1,4 +1,5 @@
 from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Match
@@ -9,6 +10,7 @@ from .services import Matching
 
 class MatchViewSet(viewsets.ModelViewSet):
     queryset = Match.objects.all()
+    permission_classes = [IsAuthenticated, ]
 
     def get_serializer_class(self):
         if self.action == 'create':
