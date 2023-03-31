@@ -1,3 +1,4 @@
+import os
 from decimal import Decimal
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -25,6 +26,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        print(os.environ.get('ALLOWED_HOSTS', 'localhost').split(','))
         if self.action in ['list', ]:
             qs = qs.exclude(username=self.request.user.username)
             qs = PersonService.add_distance(user=self.request.user, qs=qs)

@@ -30,14 +30,10 @@ class PersonService:
 
     @staticmethod
     def watermarking_photo(photo_path: str):
-        base_dir = settings.BASE_DIR
-        picture_path = os.path.join(base_dir, 'apps/person/static/picture.jpg')
-        mask_path = os.path.join(base_dir, 'apps/person/static/mask.jpg')
-        print(picture_path)
         with (
             Image.open(photo_path) as photo,
-            Image.open(picture_path) as watermark,
-            Image.open(mask_path) as mask,
+            Image.open(os.path.join(settings.BASE_DIR, 'apps/person/static/picture.jpg')) as watermark,
+            Image.open(os.path.join(settings.BASE_DIR, 'apps/person/static/mask.jpg')) as mask,
         ):
             mask = mask.convert('L')
             watermark = watermark.convert('RGBA')
