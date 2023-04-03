@@ -8,6 +8,6 @@ urlpatterns = [
     path('create/', PersonViewSet.as_view({'post': 'create'})),
     path('<int:id>/match/', MatchViewSet.as_view({'post': 'create'})),
     path('list/', PersonViewSet.as_view({'get': 'list'})),
-    path('detail/<str:username>', PersonViewSet.as_view({'get': 'retrieve'})),
+    path('detail/<str:username>/', PersonViewSet.as_view({'get': 'retrieve'})),
 ]
 

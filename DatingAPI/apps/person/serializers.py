@@ -18,11 +18,11 @@ class PersonDetailSerializer(PersonCreateSerializer):
 
     class Meta:
         model = Person
-        fields = ('first_name', 'last_name', 'age', 'photo', 'sex')
+        fields = ('username', 'first_name', 'last_name', 'age', 'photo')
 
 
 class PersonListSerializer(PersonCreateSerializer):
-    distance = serializers.DecimalField(max_digits=14, decimal_places=6, read_only=True)
+    distance = serializers.DecimalField(max_digits=14, decimal_places=6, read_only=True, label='Distance to person')
 
     class Meta:
         model = Person

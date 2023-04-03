@@ -1,8 +1,10 @@
 import os
 from decimal import Decimal
 
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 from .models import Person
 from .permissions import IsAuthenticatedOrCreate
@@ -13,7 +15,7 @@ from .services import PersonService
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     filter_backends = [DjangoFilterBackend, ]
-    filterset_fields = ['sex', 'first_name', 'last_name']
+    filterset_fields = ['sex', 'first_name', 'last_name']  # example: <host>/api/clients/list/?first_name=Yanna
     permission_classes = [IsAuthenticatedOrCreate, ]
 
     def get_serializer_class(self):
@@ -37,8 +39,10 @@ class PersonViewSet(viewsets.ModelViewSet):
             if min_distance is not None:
                 min_distance = Decimal(min_distance)
                 qs = qs.filter(distance__gte=min_distance)
-            return qs
-        elif self.action == 'retrieve':
-            username = self.kwargs.get('username')
-            qs = qs.filter(username=username)[0]
         return qs
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        user = get_object_or_404(queryset, username__icontains=self.kwargs.get('username'))
+        serializer = PersonDetailSerializer(user)
+        return Response(serializer.data)

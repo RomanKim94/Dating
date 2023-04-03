@@ -16,6 +16,12 @@ class MatchViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return MatchCreateSerializer
 
+    def perform_create(self, serializer):
+        user = self.request.user
+        expectant = Person.objects.filter(id=self.kwargs.get('id'))[0]
+        serializer.save(valuer=user, expectant=expectant)
+        return user, expectant
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -23,15 +29,14 @@ class MatchViewSet(viewsets.ModelViewSet):
         mark = serializer.validated_data.get('mark')
         headers = self.get_success_headers(serializer.data)
         new_serializer_data = None
-        # Code below: If user likes expectant and expectant likes user, user will see expectant email and will send email to both
+        # Code below: If user likes expectant and expectant likes user,
+        # user will see expectant email and will send email to both
         if mark and Matching.is_mutually(user, expectant):
             new_serializer_data = {'expectant_email': expectant.email}
             new_serializer_data.update(serializer.data)
+            # Mail detected like spam and error raises.
+            # I do not want to use another mail hosting because they ask my telephone number when registration.
+            # And I do not want to use my own account.
             Matching.send_notification(user, expectant)
         return Response(new_serializer_data or serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    def perform_create(self, serializer):
-        user = self.request.user
-        expectant = Person.objects.filter(id=self.kwargs.get('id'))[0]
-        serializer.save(valuer=user, expectant=expectant)
-        return user, expectant
