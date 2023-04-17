@@ -8,3 +8,4 @@ class MatchCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Match
         fields = ('valuer', 'expectant', 'mark')
+

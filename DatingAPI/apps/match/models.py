@@ -8,14 +8,14 @@ class Match(models.Model):
         on_delete=models.CASCADE,
         related_name='evaluations',
         verbose_name='The one who evaluates',
-        default=0,
+        default=0,  # delete
     )
     expectant = models.ForeignKey(
         'person.Person',
         on_delete=models.CASCADE,
         related_name='evaluated',
         verbose_name='The one who is being evaluated',
-        default=0,
+        default=0,  # delete
     )
     mark = models.BooleanField(
         verbose_name='Is valuer likes expectant',

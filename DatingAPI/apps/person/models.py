@@ -23,16 +23,18 @@ class Person(AbstractUser):
     }
 
     sex = models.CharField(
+        verbose_name='Sex of Person',
         choices=SEX_CHOICES,
         max_length=1,
     )
     photo = models.ImageField(
+        verbose_name='Profile picture',
         upload_to=get_file_path,
         blank=True,
-        verbose_name='Profile picture',
     )
-    age = models.PositiveSmallIntegerField(
-        validators=[MaxValueValidator(150), MinValueValidator(18)],
+    birthday = models.DateField(
+        verbose_name='Date of birth',
+        blank=True,
     )
     email = models.EmailField(
         verbose_name='Email address',
@@ -41,13 +43,14 @@ class Person(AbstractUser):
         verbose_name='User latitude',
         max_digits=9,
         decimal_places=6,
+        validators=[MinValueValidator(-90), MaxValueValidator(90)],
     )
     longitude = models.DecimalField(
         verbose_name='User longitude',
         max_digits=9,
         decimal_places=6,
+        validators=[MinValueValidator(-180), MaxValueValidator(180)]
     )
-    USERNAME_FIELD = 'username'
 
     objects = CustomUserManager()
 
