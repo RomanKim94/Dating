@@ -1,8 +1,22 @@
 # Dating
-API for dating site. 
+API for dating site.  
 ## Very short description
 This project is a bit like Tinder. You can put marks to persons (like or not). 
-___
+
+## Before using
+***For correct project working needs .env file containing next variables:  
+"EMAIL_HOST", "EMAIL_USE_SSL", "EMAIL_PORT", "EMAIL_HOST_USER", "EMAIL_HOST_PASSWORD".***
+1. Create new file ".env" in project root folder.
+2. Write following lines into the file:  
+EMAIL_HOST=  
+EMAIL_USE_SSL=  
+EMAIL_PORT=  
+EMAIL_HOST_USER=  
+EMAIL_HOST_PASSWORD=.  
+After equal sign you need write correct data of your email.  
+For more security you can write "DJANGO_SECRET_KEY=" + your secret key.  
+Also for running project not on localhost you can write "ALLOWED_HOSTS=" + your host name.  
+Example, I use host name "testingdatingapi.pythonanywhere.com". And this name will be used in the examples below.
 ## List of URLs
 
 ### Create person account
@@ -67,7 +81,10 @@ List will be filtered by distance and will include users closer <MAX_DISTANCE> k
 Same URL, but filtering by minimal distance, i.e. list will include users further than <MIN_DISTANCE> kilometers from current user.
 
 ### Detail profile view
-There is also detail information function for viewing user profile. 
+
+`https://testingdatingapi.pythonanywhere.com/api/clients/detail/<PERSON_ID>/`  
+**For GET method only**. <PERSON_ID> is an integer number.
+There is also detail information function for viewing user profile.  
 Detail information includes *username*, *first name*, *last name*, *birthday*, *sex*, *distance to user* and *photo*.  
 
 ### Mark to user
@@ -80,3 +97,5 @@ If user likes any other user first can put mark to second one. There must be {"m
 
 If both users like each other then messages are sended to their email. It contains the email address of the user they like.  
 Responce contains user email too. And if liking is not mutual, then email is not cantained
+
+## The project is being finalized
